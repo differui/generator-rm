@@ -1,0 +1,26 @@
+{
+  "name": "<%= moduleName %>",
+  "version": "0.0.1",
+  "description": "<%= moduleDescription %>",
+  "main": "dest/bundle.js",
+  "scripts": {
+    "build": "./node_modules/.bin/rollup -c",
+    "prestart": "npm run build",
+    "start": "node dest/bundle.js",
+    "test": "./node_modules/ava"
+  },
+  "keywords": [
+    "rollup"
+  ],
+  "author": "<%= authorGithub %><<%= authorEmail %>>",
+  "license": "MIT",
+  "devDependencies": {
+    "ava": "^0.19.1",
+    "rollup": "^0.41.6",<% if (babel) { %>
+    "rollup-plugin-babel": "^2.7.1",<% } %><% if (buble) { %>
+    "rollup-plugin-buble": "^0.15.0",<% } %>
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^1.1.1"
+  }
+}
