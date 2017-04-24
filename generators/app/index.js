@@ -78,6 +78,8 @@ module.exports = class extends Generator {
       this.destinationPath(),
       this.props
     );
+    this.fs.move(this.destinationPath('src/_babelrc'), this.destinationPath('src/.babelrc'))
+    this.fs.move(this.destinationPath('_gitignore'), this.destinationPath('.gitignore'))
   }
 
   git() {
