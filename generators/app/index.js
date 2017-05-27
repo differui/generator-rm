@@ -79,13 +79,15 @@ module.exports = class extends Generator {
       this.props
     );
     this.fs.move(this.destinationPath('src/_babelrc'), this.destinationPath('src/.babelrc'))
+    this.fs.move(this.destinationPath('_eslintignore'), this.destinationPath('.eslintignore'))
+    this.fs.move(this.destinationPath('_eslintrc'), this.destinationPath('.eslintrc'))
     this.fs.move(this.destinationPath('_gitignore'), this.destinationPath('.gitignore'))
   }
 
   git() {
     this.spawnCommandSync('git', [ 'init' ]);
   }
-  
+
   install() {
     this.installDependencies({ bower: false });
   }

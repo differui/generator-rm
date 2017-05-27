@@ -1,0 +1,16 @@
+{
+  "extends": "airbnb-base",
+  "env": {
+    "node": false,
+    "browser": false
+  },
+  "globals": {
+    "console": true
+  },
+  "plugins": [
+    "import"
+  ],
+  "rules": {
+    "no-console": "off"
+  }
+}
