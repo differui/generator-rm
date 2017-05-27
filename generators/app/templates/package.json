@@ -4,7 +4,6 @@
   "description": "<%= moduleDescription %>",
   "main": "dest/bundle.js",
   "scripts": {
-    "prebuild": "./node_modules/.bin/eslint . --fix",
     "build": "./node_modules/.bin/rollup -c",
     "watch": "./node_modules/.bin/rollup -c -w",
     "prestart": "npm run build",
