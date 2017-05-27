@@ -1,6 +1,6 @@
 {
   "name": "generator-rm",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Scaffold out a rollup module",
   "homepage": "https://github.com/differui/generator-rm",
   "author": {
