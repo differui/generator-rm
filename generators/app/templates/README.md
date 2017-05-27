@@ -10,6 +10,9 @@ npm install
 # build app
 npm run build
 
+# build & watch app
+npm run watch
+
 # build & launch app
 npm run start
 
