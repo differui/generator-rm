@@ -13,6 +13,11 @@ module.exports = class extends Generator {
     const transpilers = [
       {name: 'buble', value: 'buble'},
       {name: 'babel', value: 'babel'},
+      {name: 'I don\'t need any transpiler', value: ''},
+    ]
+    const languages = [
+      {name: 'javascript', value: 'javascript'},
+      {name: 'typescript', value: 'typescript'},
     ]
     const envs = [
       {name: 'browser', value: 'browser'},
@@ -58,15 +63,29 @@ module.exports = class extends Generator {
       },
       {
         type: 'list',
+        name: 'language',
+        message: 'Which language used in your module?',
+        default: languages[0],
+        choices: languages,
+      },
+      {
+        type: 'list',
         name: 'transpiler',
         message: 'Which transpiler used in your module?',
         default: transpilers[0],
         choices: transpilers,
+      },
+      {
+        type: 'confirm',
+        name: 'lint',
+        message: 'Do you need lint tools?',
+        default: false,
       }
     ]
 
     return this.prompt(prompts).then(props => {
       transpilers.forEach(t => props[t.name] = props.transpiler === t.name)
+      languages.forEach(t => props[t.name] = props.language === t.name)
       envs.forEach(t => props[t.name] = props.env === t.name)
       this.props = props
     })
@@ -88,17 +107,29 @@ module.exports = class extends Generator {
       this.destinationPath(),
       this.props
     )
-    this.fs.move(this.destinationPath('src/_babelrc'), this.destinationPath('src/.babelrc'))
-    this.fs.move(this.destinationPath('_eslintignore'), this.destinationPath('.eslintignore'))
-    this.fs.move(this.destinationPath('_eslintrc'), this.destinationPath('.eslintrc'))
+    if (this.props.lint) {
+      this.fs.move(this.destinationPath('_eslintignore'), this.destinationPath('.eslintignore'))
+      this.fs.move(this.destinationPath('_eslintrc'), this.destinationPath('.eslintrc'))
+    } else {
+      this.fs.delete(this.destinationPath('_eslintignore'))
+      this.fs.delete(this.destinationPath('_eslintrc'))
+    }
+    if (this.props.babel) {
+      this.fs.move(this.destinationPath('src/_babelrc'), this.destinationPath('src/.babelrc'))
+    } else {
+      this.fs.delete(this.destinationPath('src/_babelrc'))
+    }
+    if (this.props.typescript) {
+      this.fs.move(this.destinationPath('src/index.js'), this.destinationPath('src/index.ts'))
+      this.fs.move(this.destinationPath('_tsconfig'), this.destinationPath('tsconfig.json'))
+    } else {
+      this.fs.delete(this.destinationPath('_tsconfig'))
+    }
+    if (this.props.browser) {
+      this.fs.move(this.destinationPath('_index'), this.destinationPath('index.html'))
+    } else {
+      this.fs.delete(this.destinationPath('_index'))
+    }
     this.fs.move(this.destinationPath('_gitignore'), this.destinationPath('.gitignore'))
-  }
-
-  git() {
-    this.spawnCommandSync('git', [ 'init' ])
-  }
-
-  install() {
-    this.installDependencies({ bower: false })
   }
 }
