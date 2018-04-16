@@ -108,11 +108,16 @@ module.exports = class extends Generator {
       this.props
     )
     if (this.props.lint) {
-      this.fs.move(this.destinationPath('_eslintignore'), this.destinationPath('.eslintignore'))
-      this.fs.move(this.destinationPath('_eslintrc'), this.destinationPath('.eslintrc'))
+      if (this.props.typescript) {
+        this.fs.move(this.destinationPath('_tslint'), this.destinationPath('tslint.json'))
+      } else {
+        this.fs.move(this.destinationPath('_eslintignore'), this.destinationPath('.eslintignore'))
+        this.fs.move(this.destinationPath('_eslintrc'), this.destinationPath('.eslintrc'))
+      }
     } else {
       this.fs.delete(this.destinationPath('_eslintignore'))
       this.fs.delete(this.destinationPath('_eslintrc'))
+      this.fs.delete(this.destinationPath('_tslint'))
     }
     if (this.props.babel) {
       this.fs.move(this.destinationPath('src/_babelrc'), this.destinationPath('src/.babelrc'))
