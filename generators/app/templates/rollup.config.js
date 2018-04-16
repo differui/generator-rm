@@ -1,28 +1,34 @@
-const commonjs = require('rollup-plugin-commonjs')
-const eslint = require('rollup-plugin-eslint')
-const replace = require('rollup-plugin-replace')
-const resolve = require('rollup-plugin-node-resolve')<% if (buble) { %>
-const buble = require('rollup-plugin-buble')<% } %><% if (babel) { %>
-const babel = require('rollup-plugin-babel')<% } %>
+<% if (lint) { %>const eslint = require('rollup-plugin-eslint');<% } %><% if (buble) { %>
+const buble = require('rollup-plugin-buble');<% } %><% if (babel) { %>
+const babel = require('rollup-plugin-babel');<% } %><% if (typescript) { %>
+const typescript = require('rollup-plugin-typescript');<% } %>
+const replace = require('rollup-plugin-replace');
+const resolve = require('rollup-plugin-node-resolve');
+const commonjs = require('rollup-plugin-commonjs');
 
-export default {
-  entry: './src/index.js',
+export default {<% if (javascript) { %>
+  entry: './src/index.js',<% } %><% if (typescript) { %>
+  entry: './src/index.ts',<% } %>
   dest: './dest/bundle.js',
   format: 'cjs',
-  plugins: [<% if (buble) { %>
-    eslint(),
+  plugins: [<% if (lint) { %>
+    eslint(),<% } %><% if (buble) { %>
     buble({
-      exclude: 'node_modules/**'
+      exclude: 'node_modules/**',
     }),<% } %><% if (babel) { %>
     babel({
-      exclude: 'node_modules/**'
+      exclude: 'node_modules/**',
+      runtimeHelpers: true,
+    }),<% } %><% if (typescript) { %>
+    typescript({
+      exclude: 'node_modules/**',
     }),<% } %>
     commonjs({
-      namedExports: {}
+      namedExports: {},
     }),
     resolve(),
     replace({
-      'process.env.NODE_ENV': JSON.stringify('development')
-    })
-  ]
+      'process.env.NODE_ENV': JSON.stringify('development'),
+    }),
+  ],
 }
