@@ -1,13 +1,14 @@
-<% if (lint) { %>const eslint = require('rollup-plugin-eslint')<% } %><% if (buble) { %>
-const buble = require('rollup-plugin-buble')<% } %><% if (babel) { %>
-const babel = require('rollup-plugin-babel')<% } %><% if (typescript) { %>
-const typescript = require('rollup-plugin-typescript')<% } %>
-const replace = require('rollup-plugin-replace')
-const resolve = require('rollup-plugin-node-resolve')
-const commonjs = require('rollup-plugin-commonjs')
+<% if (lint) { %>const eslint = require('rollup-plugin-eslint');<% } %><% if (buble) { %>
+const buble = require('rollup-plugin-buble');<% } %><% if (babel) { %>
+const babel = require('rollup-plugin-babel');<% } %><% if (typescript) { %>
+const typescript = require('rollup-plugin-typescript');<% } %>
+const replace = require('rollup-plugin-replace');
+const resolve = require('rollup-plugin-node-resolve');
+const commonjs = require('rollup-plugin-commonjs');
 
-export default {
-  entry: './src/index.js',
+export default {<% if (javascript) { %>
+  entry: './src/index.js',<% } %><% if (typescript) { %>
+  entry: './src/index.ts',<% } %>
   dest: './dest/bundle.js',
   format: 'cjs',
   plugins: [<% if (lint) { %>
@@ -29,5 +30,5 @@ export default {
     replace({
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
-  ]
+  ],
 }
